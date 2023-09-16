@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>基本结构 &mdash; Lumos v0.1 文档</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=80abe1dd"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="会话调度" href="%E4%BC%9A%E8%AF%9D%E8%B0%83%E5%BA%A6.html" />
+    <link rel="prev" title="框架设计" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Lumos
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">框架设计</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">基本结构</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">算子实现</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">计算图</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#layer">Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#graph">Graph</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="%E4%BC%9A%E8%AF%9D%E8%B0%83%E5%BA%A6.html">会话调度</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../%E7%AE%97%E5%AD%90%E8%AE%BE%E8%AE%A1/index.html">算子设计</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Lumos</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">框架设计</a></li>
+      <li class="breadcrumb-item active">基本结构</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/docs/框架设计/基本结构.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>基本结构<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h1>
+<p>Lumos由如下三部分组成</p>
+<ul class="simple">
+<li><p>算子实现——OPS</p></li>
+<li><p>图构建——Graph</p></li>
+<li><p>图调度——Flow</p></li>
+</ul>
+<img alt="../../_images/image-20230916134157922.png" src="../../_images/image-20230916134157922.png" />
+<p>Lumos的基本逻辑可以划分为这三层，它们的结构关系如下图所示</p>
+<img alt="../../_images/image-20230916134418409.png" src="../../_images/image-20230916134418409.png" />
+<p>多个算子构成一个计算图，计算图由调度模块进行调度。Lumos的灵活性集中体现在Graph中，Lumos支持您对Graph进行扩展和修改。</p>
+<section id="id2">
+<h2>算子实现<a class="headerlink" href="#id2" title="此标题的永久链接"></a></h2>
+<p>该模块在Lumos项目中处于最底层，采用面向对象的开发方式，代码位于Lumos/ops。所有底层算法都包含于该模块之中，算法以函数形式独立存在。</p>
+</section>
+<section id="id3">
+<h2>计算图<a class="headerlink" href="#id3" title="此标题的永久链接"></a></h2>
+<p>这是Lumos框架的核心部分，包含Lumos的核心设计理念。</p>
+<p>计算图由计算节点组成，即我们一般意义上的Layer，Layer具有一定的功能，与其他Layer的功能有明确的界限。计算图是由Layer组成的，所谓计算图只不过是一个空壳，只是一个有Layer组成的栈结构，如下图所示</p>
+<img alt="../../_images/image-20230916141313443.png" src="../../_images/image-20230916141313443.png" />
+<p>Layer在栈中的前后关系决定了计算调度的先后顺序，Layer可以自定义，您可以构建所需的Layer，所谓Lumos的灵活性就在于此。</p>
+</section>
+<section id="layer">
+<h2>Layer<a class="headerlink" href="#layer" title="此标题的永久链接"></a></h2>
+<p>layer与我们通常意义上深度学习算法中的layer是一样的，我们定义它是具有一定功能的独立计算节点，与其他layer在功能上具有明显差异。</p>
+<p>Layer具有如下接口：</p>
+<ul class="simple">
+<li><p>make_name_layer</p></li>
+<li><p>init_name_layer_c</p></li>
+<li><p>init_name_layer_g</p></li>
+<li><p>refresh_name_layer_c</p></li>
+<li><p>refresh_name_layer_g</p></li>
+<li><p>forward_name_layer_c</p></li>
+<li><p>forward_name_layer_g</p></li>
+<li><p>backward_name_layer_c</p></li>
+<li><p>backward_name_layer_g</p></li>
+<li><p>update_name_layer_c</p></li>
+<li><p>update_name_layer_g</p></li>
+</ul>
+<p>接口名中“name”表示您自定义的layer名，它是唯一的，不可以与其他layer重名，后缀_c与_g分别代表是cpu运行函数还是gpu运行函数。如果您需要自定义layer，那么您需要实现上述接口，当然如果您只希望在cpu下运行，那么所有_g的接口可以不用实现，反之亦然。</p>
+<p><strong>接口描述</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 55%" />
+<col style="width: 18%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>名</p></th>
+<th class="head"><p>参数</p></th>
+<th class="head"><p>返回</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>make_name_layer</p></td>
+<td><p>可变</p></td>
+<td><p>Layer对象</p></td>
+</tr>
+</tbody>
+</table>
+<p>该接口用于创建layer对象，layer对象是我们构建的一个结构体，如果该结构体中缺少您所需的参数，您可以直接对该结构体进行扩展。您需要在该接口中初始化必要的参数，以及绑定该layer的其他默认接口。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">Layer</span><span class="w"> </span><span class="o">*</span><span class="nf">make_avgpool_layer</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">ksize</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">stride</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pad</span><span class="p">)</span>
+<span class="linenos"> 2</span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="n">Layer</span><span class="w"> </span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Layer</span><span class="p">));</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AVGPOOL</span><span class="p">;</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">pad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pad</span><span class="p">;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">ksize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ksize</span><span class="p">;</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">stride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stride</span><span class="p">;</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">init_avgpool_layer_c</span><span class="p">;</span>
+<span class="linenos">12</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">forward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">forward_avgpool_layer_c</span><span class="p">;</span>
+<span class="linenos">13</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">backward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">backward_avgpool_layer_c</span><span class="p">;</span>
+<span class="linenos">14</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">update_avgpool_layer_c</span><span class="p">;</span>
+<span class="linenos">15</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">initialize_gpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">init_avgpool_layer_g</span><span class="p">;</span>
+<span class="linenos">16</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">forward_gpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">forward_avgpool_layer_g</span><span class="p">;</span>
+<span class="linenos">17</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">backward_gpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">backward_avgpool_layer_g</span><span class="p">;</span>
+<span class="linenos">18</span><span class="w">    </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">update_gpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">update_avgpool_layer_g</span><span class="p">;</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">l</span><span class="p">;</span>
+<span class="linenos">21</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>以上伪代码展示了该接口的基本功能。</p>
+<p><strong>layer对象</strong></p>
+<p>c语言在面向对象上具有先天缺陷，我们不主张使用一些特殊的方式去实现一种具有缺陷的面向对象过程，如果您需要使用额外的参数，请您直接在layer结构体定义中进行直接扩展。如果您需要查阅具体的layer结构体内部参数设置，请参阅接口文档。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 55%" />
+<col style="width: 18%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>名</p></th>
+<th class="head"><p>参数</p></th>
+<th class="head"><p>返回</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>init_name_layer</p></td>
+<td><p>可变</p></td>
+<td><p>void</p></td>
+</tr>
+<tr class="row-odd"><td><p>refresh_name_layer</p></td>
+<td><p>None</p></td>
+<td><p>void</p></td>
+</tr>
+</tbody>
+</table>
+<p>该接口用于初始化该layer节点，运行时内存应该在该接口中创建，必要的静态参数计算应该在该接口中进行。该接口必须拥有四个输入参数，一个layer结构体实体对象，以及输入数据的size，即weight，height，channel。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kt">void</span><span class="w"> </span><span class="n">init_avgpool_layer</span><span class="p">(</span><span class="n">Layer</span><span class="w"> </span><span class="o">*</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>当然您可以在默认参数后添加您所需的其他参数。在计算图开始进行计算时，流控制模块会调度所有layer的初始化接口，来初始化计算图。</p>
+<p>refresh接口实现对计算图的重置，释放所有运行时内存，所有静态参数重置。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 43%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>名</p></th>
+<th class="head"><p>参数</p></th>
+<th class="head"><p>返回</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>forward_name_layer</p></td>
+<td><p>Layer l，int num</p></td>
+<td><p>void</p></td>
+</tr>
+<tr class="row-odd"><td><p>backward_name_layer</p></td>
+<td><p>Layer l，float rate，int num</p></td>
+<td><p>void</p></td>
+</tr>
+</tbody>
+</table>
+<p>forward表示前向计算过程，backward表示反向计算过程，即梯度计算过程，这两个接口是该layer的核心计算部分。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 43%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>名</p></th>
+<th class="head"><p>参数</p></th>
+<th class="head"><p>返回</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>update_name_layer</p></td>
+<td><p>Layer l，float rate，int num</p></td>
+<td><p>void</p></td>
+</tr>
+</tbody>
+</table>
+<p>针对带有训练参数的layer，update实现该layer的权重更新。</p>
+</section>
+<section id="graph">
+<h2>Graph<a class="headerlink" href="#graph" title="此标题的永久链接"></a></h2>
+<p>计算图由layer组成，graph不具有其他附加接口实现，就是一个结构体，而所有的图调度都由上层调度模块完成。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">graph</span><span class="p">{</span>
+<span class="linenos">2</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">;</span>
+<span class="linenos">3</span><span class="w">    </span><span class="n">Layer</span><span class="w"> </span><span class="o">**</span><span class="n">layers</span><span class="p">;</span>
+<span class="linenos">4</span><span class="p">}</span><span class="w"> </span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="n">Graph</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>所有layer以线性的方式存储于**layers，flow调度模块也会以线性的方式从前向后进行调度处理。</p>
+<p>Graph的意义不在于代码构建，而在于梯度计算，复杂数学计算可以分解为计算图，由链式求导法则可知，逆推导计算图，通过结算节点分解，大大减少了计算难度。而由于计算图的计算方式类似数据流，从开始经由不同计算节点一直流到最终结果，所以上层调度模块我们称之为flow，这与tensorflow的基本思路是一致的。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="框架设计" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="%E4%BC%9A%E8%AF%9D%E8%B0%83%E5%BA%A6.html" class="btn btn-neutral float-right" title="会话调度" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, 李卞。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
