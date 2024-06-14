@@ -9,7 +9,7 @@
 project = 'Lumos'
 copyright = '2023, 李卞'
 author = '李卞'
-release = 'v0.1'
+release = 'v1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
