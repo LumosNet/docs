@@ -11,20 +11,20 @@
 
 train_data.txt:
 
-```c
+``
 /home/lumos/data/mnist/train/9_11.png
 /home/lumos/data/mnist/train/7_10.png
 /home/lumos/data/mnist/train/2_106.png
 /home/lumos/data/mnist/train/6_86.png
-```
+``
 
 train_label.txt
 
-```
+``
 /home/lumos/data/mnist/train/9_11.txt
 /home/lumos/data/mnist/train/7_10.txt
 /home/lumos/data/mnist/train/2_106.txt
 /home/lumos/data/mnist/train/6_86.txt
-```
+``
 
 您可以看到，数据和标签路径是一一对应的，Lumos只会顺序读取而不做任何判断，您需要确保路径写入的顺序

@@ -5,22 +5,25 @@
 
 深度学习模型是一个计算图，首先需要创建计算图实例，Lumos定义了Graph类
 
-```c
-Graph *g = create_graph();
-```
+.. code-block:: c
+    :linenos:
+
+    Graph *g = create_graph();
 
 深度学习模型，通常表达为多个计算层的累积，所以您需要创建所需计算层，当前Lumos提供的计算层可以在[API参考中]()查看
 
 如下为计算层的创建
 
-```c
-Layer *l = make_connect_layer(4, 1, "relu");
-```
+.. code-block:: c
+    :linenos:
+
+    Layer *l = make_connect_layer(4, 1, "relu");
 
 您需要手动将计算层添加进计算图中
 
-```c
-append_layer2grpah(g, l)
-```
+.. code-block:: c
+    :linenos:
+
+    append_layer2grpah(g, l)
 
 添加顺序决定了调度顺序，Lumos将从上到下顺序调度所有计算层（先添加的先计算）

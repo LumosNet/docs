@@ -7,7 +7,8 @@
 
 - append_layer2grpah：void append_layer2grpah(Graph **graph*, Layer **l*)	
 
-| 名    | 说明               |
-| ----- | ------------------ |
-| graph | 计算图实例         |
-| l     | 要添加的计算层实例 |
+
+=====         =====
+graph         计算图实例
+l             要添加的计算层实例
+=====         =====

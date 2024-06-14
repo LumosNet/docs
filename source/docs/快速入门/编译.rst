@@ -5,6 +5,7 @@
 
 如下我们提供了一个编译命令的参考实例，如果您对make工具和gcc较为熟悉，请您自行编写编译脚本
 
-```shell
-gcc -fopenmp lumos.c -I/home/用户名/lumos/include/ -o lumos -L/home/用户名/lumos/lib -llumos
-```
+.. code-block:: console
+    :linenos:
+
+    $ gcc -fopenmp lumos.c -I/home/用户名/lumos/include/ -o lumos -L/home/用户名/lumos/lib -llumos
