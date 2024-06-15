@@ -5,8 +5,8 @@
 
 Lumos主标志：602x290
 
-.. image:: ./_static/Lumos.png
+.. image:: ../../_static/Lumos.png
 
 Lumos主徽章：270x280
 
-.. image:: ./_static/LumosNet.png
+.. image:: ../../_static/LumosNet.png

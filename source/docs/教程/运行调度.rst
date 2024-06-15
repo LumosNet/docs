@@ -17,15 +17,15 @@ create_session接口定义如下
 
 接口参数说明如下
 
-=====     =====
-graph     计算图
-h         输入图像数据的height
-w         输入图像数据的width
-c         输入图像数据的channel
-truth_num 离散标签数据个数
-type      运行内核选择CPU/GPU
-path      权重文件路径
-=====     =====
+==========    =====================
+graph         计算图
+h             输入图像数据的height
+w             输入图像数据的width
+c             输入图像数据的channel
+truth_num     离散标签数据个数
+type          运行内核选择CPU/GPU
+path          权重文件路径
+==========    =====================
 
 Lumos允许您在预训练模型基础上完成训练，path参数即预训练权重文件路径，如果您需要从零开始训练，path参数设置为NULL
 
@@ -45,13 +45,13 @@ set_train_params接口定义如下
 
 接口参数说明如下
 
-=====         =====
-sess          会话实例
-epoch         训练轮次
-batch         随机梯度下降批次大小
-subdivision   批次分割大小
-learning_rate 步长（学习率）
-=====         =====
+==============    =====================
+sess              会话实例
+epoch             训练轮次
+batch             随机梯度下降批次大小
+subdivision       批次分割大小
+learning_rate     步长（学习率）
+==============    =====================
 
 在图像识别算法中，内存需求非常大，您可能没有符合运行要求的内存空间，subdivision参数设置子批次计算大小，可以实现多个小批次计算来完成完整batch运算，有限的解决内存问题，batch值必须能被subdivision整除
 

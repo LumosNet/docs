@@ -5,7 +5,7 @@ Lumos允许您快速实现深度学习模型，我们提供了简洁的接口，
 
 下面我们将用Lenet5模型实现MNIST手写数字识别，让您快速了解Lumos框架的使用
 
-完整的框架教程，请您参考 `Lumos教程 <教程/index>`
+完整的框架教程，请您参考 `Lumos教程 <../教程/index>`
 
 .. toctree::
     :maxdepth: 3
