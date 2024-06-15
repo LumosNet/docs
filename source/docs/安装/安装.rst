@@ -3,7 +3,7 @@
 
 您需要下载我们提供的安装包，请您下载您所需要的版本，最新版本安装包为
 
-- v1.0： `lumos-v1.0.run <https://github.com/LumosNet/Lumos-Build/raw/main/v1.0/lumos-v1.0.run>`_
+- v1.0： `lumos-v1.0.run <https://github.com/LumosNet/Lumos-Build/archive/refs/targs/v1.0.zip>`_
 
 下载完成后使用如下命令进行安装
 
