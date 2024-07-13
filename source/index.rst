@@ -19,6 +19,7 @@ Lumos是一个轻量级的深度学习框架。
    docs/快速入门/index
    docs/教程/index
    docs/API参考/index
+   docs/深度学习/index
    docs/开发者文档/index
 
 Lumos的目标不仅仅是一个可运行的深度学习框架，我们更希望提供一个灵活可扩展的实验平台，通过本文档您可以更好的理解在框架设计层面Lumos
